@@ -4,7 +4,7 @@ import csv
 
 
 # location Dublin 1 and/or Dublin2
-# - price : if is need it a range can be between 500€ - 1000€
+# - price :  500€ - 1000€
 # - apartment 1 room
 # - studio
 # - single or double bed
