@@ -73,9 +73,9 @@ def getData():
     # print(len(queryResult))
     finalResult = [{}]
     # print(len(queryResult))
-    resultList = list(set(queryResult))
+    # resultList = list(set(queryResult))
     # print(len(resultList))
-    finalResult = listToListofDict(resultList)
+    finalResult = listToListofDict(queryResult)
     # print(finalResult)
     # now the sorting will be implemented.
     # Because if I do sorting in the loop then for each loop I need to perform an nlog(n) complexity or sort algorithm
@@ -88,3 +88,5 @@ def getData():
 
 
 getData()
+
+ 
