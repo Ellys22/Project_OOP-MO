@@ -1,5 +1,6 @@
 from daftlistings import Daft, Location, SearchType, PropertyType, Facility, Ber
 import operator
+import csv
 
 
 # location Dublin 1 and/or Dublin2
@@ -9,17 +10,10 @@ import operator
 # - single or double bed
 # - shared room in apartment
 
-# locationList = [Location.DUBLIN_1_DUBLIN, Location.DUBLIN_2_DUBLIN]
-# typeList = [PropertyType.HOUSE, PropertyType.STUDIO_APARTMENT]
-# facilityList = [Facility.INTERNET, Facility.CENTRAL_HEATING]
-# searchList = [SearchType.STUDENT_ACCOMMODATION, SearchType.SHARING]
-
-
-locationList = [Location.DUBLIN_1_DUBLIN]
-typeList = [PropertyType.HOUSE, ]
-facilityList = [Facility.INTERNET]
-searchList = [SearchType.STUDENT_ACCOMMODATION]
-
+locationList = [Location.DUBLIN_1_DUBLIN, Location.DUBLIN_2_DUBLIN]
+typeList = [PropertyType.HOUSE, PropertyType.STUDIO_APARTMENT]
+facilityList = [Facility.INTERNET, Facility.CENTRAL_HEATING]
+searchList = [SearchType.STUDENT_ACCOMMODATION, SearchType.SHARING]
 
 def listToListofDict(myList):
 
@@ -30,8 +24,7 @@ def listToListofDict(myList):
         price_temp = elem.price.split(" ")
 
         temp["Title"] = elem.title
-        temp["Price"] = elem.price
-        temp["price_val"] = int(price_temp[0][1:])
+        temp["Price per month"] = int(price_temp[0][1:])
         # print(temp["price_val"])
         temp["Bedrooms"] = elem.bedrooms
         temp["Category"] = elem.category
@@ -42,8 +35,16 @@ def listToListofDict(myList):
 
 
 def sortListofDict(data):
-    data.sort(key=operator.itemgetter('price_val'))
+    data.sort(key=operator.itemgetter('Price per month'))
     return data
+
+
+def writeToCSV(data):
+    keys = data[0].keys()
+    with open('Result.csv', 'w', newline='') as file:
+        file_writer = csv.DictWriter(file, keys)
+        file_writer.writeheader()
+        file_writer.writerows(data)
 
 
 def getData():
@@ -66,16 +67,16 @@ def getData():
                     listings = daft.search(max_pages=1)
                     queryResult += listings
 
-    print(len(queryResult))
-    finalResult=[{}]
+    # print(len(queryResult))
+    finalResult = [{}]
     finalResult = listToListofDict(queryResult)
-    print(finalResult)
-    finalResult = sortListofDict(finalResult)
-    print(finalResult[0])
-
+    # print(finalResult)
     # now the sorting will be implemented.
     # Because if I do sorting in the loop then for each loop I need to perform an nlog(n) complexity or sort algorithm
     # rather it's better to sort using the final list
+    finalResult = sortListofDict(finalResult)
+    writeToCSV(finalResult)
+    
 
 
 getData()
