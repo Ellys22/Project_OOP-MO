@@ -15,6 +15,9 @@ typeList = [PropertyType.HOUSE, PropertyType.STUDIO_APARTMENT]
 facilityList = [Facility.INTERNET, Facility.CENTRAL_HEATING]
 searchList = [SearchType.STUDENT_ACCOMMODATION, SearchType.SHARING]
 
+# Reference:
+# Github (April, 2021) AnthonyBloomer/daftlistings[online] 
+# Available at: https://github.com/AnthonyBloomer/daftlistings
 
 def listToListofDict(myList):
 
