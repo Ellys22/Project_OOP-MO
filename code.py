@@ -34,7 +34,3 @@ def getData():
         print()
 
 
-# git push https://Ellys22:ETscorpion22@20@github.com/B_user_name/project.git
-
-# git config user.name Ellys22
-# git config user.email sba21167@student.cct.ie
