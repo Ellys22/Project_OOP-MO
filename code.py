@@ -1,7 +1,6 @@
 from daftlistings import Daft, Location, SearchType, PropertyType, Facility, Ber
 
 
-
 # location Dublin 1 and/or Dublin2
 # - price : if is need it a range can be between 500€ - 1000€
 # - apartment 1 room
@@ -15,22 +14,30 @@ facilityList = [Facility.INTERNET, Facility.CENTRAL_HEATING]
 searchList = [SearchType.STUDENT_ACCOMMODATION, SearchType.SHARING]
 
 def getData():
+    queryResult = list()
     daft = Daft()
-    daft.set_min_price(500)
-    daft.set_max_price(1000)
-    daft.set_max_beds(2)
-    daft.set_facility(Facility.INTERNET)
+        
+    for location in locationList:
+        for src in searchList:
+            for facility in facilityList:
+                for aptType in typeList:
+                    print("Location:{}, Search:{}, Facility:{}, PropertyType:{}".format(location,src,facility,aptType))
+                    daft.set_location(location)
+                    daft.set_search_type(src)
+                    daft.set_facility(facility)
+                    daft.set_property_type(aptType)
+                    daft.set_min_price(500)
+                    daft.set_max_price(1000)
+                    daft.set_max_beds(2)
+                    listings = daft.search()
+                    queryResult += listings
     
-    listings = daft.search()
-    print(len(listings))
+    print(len(queryResult))
+
+    # now the sorting will be implemented.
+    # Because if I do sorting in the loop then for each loop I need to perform an nlog(n) complexity or sort algorithm
+    # rather it's better to sort using the final list
+    
 
 
-    for listing in listings:
-        print(listing.title)
-        print(listing.price)
-        print(listing.daft_link)
-        print(listing.bedrooms)
-        print(listing.brochure)
-        print()
-
-
+getData()
