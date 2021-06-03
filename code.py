@@ -15,6 +15,7 @@ typeList = [PropertyType.HOUSE, PropertyType.STUDIO_APARTMENT]
 facilityList = [Facility.INTERNET, Facility.CENTRAL_HEATING]
 searchList = [SearchType.STUDENT_ACCOMMODATION, SearchType.SHARING]
 
+
 def listToListofDict(myList):
 
     final_list = list(dict())
@@ -26,7 +27,6 @@ def listToListofDict(myList):
         temp["Title"] = elem.title
         temp["Price per month"] = int(price_temp[0][1:])
         # print(temp["price_val"])
-        temp["Bedrooms"] = elem.bedrooms
         temp["Category"] = elem.category
         temp["Agent Name"] = elem.agent_name
         temp["Daft Link"] = elem.daft_link
@@ -69,14 +69,19 @@ def getData():
 
     # print(len(queryResult))
     finalResult = [{}]
-    finalResult = listToListofDict(queryResult)
+    # print(len(queryResult))
+    resultList = list(set(queryResult))
+    # print(len(resultList))
+    finalResult = listToListofDict(resultList)
     # print(finalResult)
     # now the sorting will be implemented.
     # Because if I do sorting in the loop then for each loop I need to perform an nlog(n) complexity or sort algorithm
     # rather it's better to sort using the final list
     finalResult = sortListofDict(finalResult)
+    # removing the duplicate results
+    finalResult = [dict(t) for t in {tuple(d.items()) for d in finalResult}]
+    # print(len(finalResult))
     writeToCSV(finalResult)
-    
 
 
 getData()
