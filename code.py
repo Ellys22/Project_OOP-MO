@@ -1,7 +1,7 @@
 from daftlistings import Daft, Location, SearchType, PropertyType, Facility, Ber
 import operator
 import csv
-
+import re
 
 # location Dublin 1 and/or Dublin2
 # - price :  500€ - 1000€
@@ -15,6 +15,8 @@ typeList = [PropertyType.HOUSE, PropertyType.STUDIO_APARTMENT]
 facilityList = [Facility.INTERNET, Facility.CENTRAL_HEATING]
 searchList = [SearchType.STUDENT_ACCOMMODATION, SearchType.SHARING]
 
+
+
 # Reference:
 # Github (April, 2021) AnthonyBloomer/daftlistings[online] 
 # Available at: https://github.com/AnthonyBloomer/daftlistings
@@ -25,11 +27,11 @@ def listToListofDict(myList):
 
     for elem in myList:
         temp = dict()
-        price_temp = elem.price.split(" ")
-
+        price_temp =re.findall('\d+',  elem.price )
+        # print(price_temp)
         temp["Title"] = elem.title
-        temp["Price per month"] = int(price_temp[0][1:])
-        # print(temp["price_val"])
+        temp["Price per month"] = int(price_temp[0])
+            
         temp["Category"] = elem.category
         temp["Agent Name"] = elem.agent_name
         temp["Daft Link"] = elem.daft_link
@@ -83,7 +85,7 @@ def getData():
     finalResult = sortListofDict(finalResult)
     # removing the duplicate results
     finalResult = [dict(t) for t in {tuple(d.items()) for d in finalResult}]
-    # print(len(finalResult))
+    print(len(finalResult))
     writeToCSV(finalResult)
 
 
